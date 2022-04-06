@@ -3,7 +3,7 @@ name: synx
 
 on:
   schedule:
-    - cron : '* 3 * * *'   # every 18:00
+    - cron : '23 18 * * *'   # every 18:00
 
   workflow_dispatch:
 
