@@ -1,0 +1,45 @@
+
+name: synx
+
+on:
+  schedule:
+    - cron : '*/3 * * * *'   # every 18:00
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v3
+      
+      - name : time check
+        if : (github.event.schedule != '0 18 * * *')
+        run : echo "This is not 18:00"
+
+
+      - name: remote upstream
+        run : |
+              git remote add upstream https://github.com/microsoft/Web-Dev-For-Beginners.git
+              git remote -v
+              
+      - name : check version   
+        run : |
+              if (git rev-parse main == git rev-parse upstream/main); then
+                echo "state = true" >> $GITHUB_ENV   # already up-to-date
+                echo "already up-to-date"
+        
+              else (git rev-parse main != git rev-parse upstream/main)
+                echo "state = false" >> $GITHUB_ENV   # need to update
+              fi
+              
+      - name : fetch upstream
+        if : ${{env.state}} == 'false'
+        run : | 
+              git fetch upstream 
+              git merge upstream/main
+              git push origin main
+              
+              echo "finish"
