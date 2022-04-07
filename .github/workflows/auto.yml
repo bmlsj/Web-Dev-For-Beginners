@@ -3,9 +3,12 @@ name: synx
 
 
 on:
-  schedule:
-    - cron : '01 23 * * *'
-
+  # schedule:
+  #   - cron : '01 23 * * *'
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -49,6 +52,7 @@ jobs:
                 echo "already up-to-date"
               else                                                       # need to update
                 echo "state = false" >> $GITHUB_ENV  
+                echo "need to update"
               fi
       
       
