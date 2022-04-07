@@ -1,11 +1,13 @@
 
 name: synx
 
+
 on:
   schedule:
-    - cron : '*/1 * * * *'  # '0 18 * * *'
+    - cron: '9 21 * * *'
 
-
+  workflow_dispatch:
+  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -30,7 +32,7 @@ jobs:
              # main_id = ${{git rev-parse main}}
              # upstream_id = ${{git rev-parse upstream/main}}
               
-              if (main_id == upstream_id); then
+              if [ $main_id = $upstream_id ]; then
                 echo "state = true" >> $GITHUB_ENV   # already up-to-date
                 echo "already up-to-date"
         
