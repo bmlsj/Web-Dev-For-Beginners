@@ -59,7 +59,7 @@ jobs:
       
               
       - name : git action
-        if : $env.state != 'true'    # 다르면
+        if : ${{env.state == 'false'}}    # 다르면
         run : | 
               git merge upstream/main
               git push origin main
