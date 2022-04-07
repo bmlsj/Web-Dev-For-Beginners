@@ -1,15 +1,11 @@
 
 name: synx
 
-# Controls when the workflow will run
-on:
-  # Triggers the workflow on push or pull request events but only for the main branch
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
-  # Allows you to run this workflow manually from the Actions tab
+on:
+  schedule:
+    - cron : '01 23 * * *'
+
   workflow_dispatch:
 
 jobs:
@@ -19,7 +15,6 @@ jobs:
           issues: write
           
     steps:
-
       - uses: actions/checkout@v3
   
       # remote
@@ -59,7 +54,7 @@ jobs:
       
               
       - name : git action
-        if : ${{env.state == 'false'}}    # 다르면
+        if : ${{env.state == 'false'}}    # main_id, upstream_id 다르면 실행
         run : | 
               git merge upstream/main
               git push origin main
