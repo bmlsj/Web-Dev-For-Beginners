@@ -3,7 +3,7 @@ name: synx
 
 on:
   schedule:
-    - cron : '1 * * * *'  # '0 18 * * *'
+    - cron : '*/1 * * * *'  # '0 18 * * *'
 
 
 jobs:
