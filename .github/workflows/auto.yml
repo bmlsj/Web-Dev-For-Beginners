@@ -3,12 +3,11 @@ name: synx
 
 on:
   schedule:
-    - cron : '23 18 * * *'   # every 18:00
+    - cron : '1 * * * *'  # '0 18 * * *'
 
-  workflow_dispatch:
 
 jobs:
-  auto-update:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,11 +19,16 @@ jobs:
               git remote add upstream https://github.com/microsoft/Web-Dev-For-Beginners.git
               git remote -v
                       
-              
+      - name : main id
+        run : git rev-parse main  | read main_id
+        
+      - name : upstream id
+        run : git rev-parse upstream/main | read upstream_id
+        
       - name : check version   
         run : |
-              main_id = "$(git rev-parse main)"
-              upstream_id = "$(git rev-parse upstream/main)"
+             # main_id = ${{git rev-parse main}}
+             # upstream_id = ${{git rev-parse upstream/main}}
               
               if (main_id == upstream_id); then
                 echo "state = true" >> $GITHUB_ENV   # already up-to-date
