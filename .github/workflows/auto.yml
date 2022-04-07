@@ -51,12 +51,13 @@ jobs:
               else                                                       # need to update
                 echo "state = false" >> $GITHUB_ENV  
               fi
-              
+      
+      - name : checkout
+        run : gir checkout main
               
       - name : git action
-        if : ${{env.state}} == 'false'    # 다르면
+        if : ${{env.state}} = 'false'    # 다르면
         run : | 
-              git checkout main           # 변경 내용확인
               git merge upstream/main
               git push origin main
               git status
