@@ -30,7 +30,7 @@ jobs:
               
         # checkout
       - name : checkout
-        run : git checkout english
+        run : git checkout -b english
         
       # fetch
       - name : fetch upstream
