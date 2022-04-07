@@ -4,7 +4,7 @@ name: synx
 
 on:
   schedule:
-    - cron: '12 21 * * *'
+    - cron: 25 21 * * *
 
   workflow_dispatch:
   
@@ -15,18 +15,27 @@ jobs:
     steps:
 
       - uses: actions/checkout@v3
-
+  
+      # remote
       - name: remote upstream
         run : |
               git remote add upstream https://github.com/microsoft/Web-Dev-For-Beginners.git
               git remote -v
-                      
+      
+      # fetch
+      - name : fetch upstream
+        run : git fetch upstream 
+              
+      # main의 최신 id               
       - name : main id
         run : git rev-parse main  | read main_id
-        
+      
+      # upstream/main의 최신 id
       - name : upstream id
         run : git rev-parse upstream/main | read upstream_id
         
+        
+      # main_id, upstream_id 같은지 확인
       - name : check version   
         run : |
              # main_id = ${{git rev-parse main}}
@@ -40,10 +49,9 @@ jobs:
                 echo "state = false" >> $GITHUB_ENV   # need to update
               fi
               
-      - name : fetch upstream
+      - name : git
         if : ${{env.state}} == 'false'
         run : | 
-              git fetch upstream 
               git merge upstream/main
               git push origin main
               git status
