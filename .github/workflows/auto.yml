@@ -4,14 +4,16 @@ name: synx
 
 on:
   schedule:
-    - cron: 25 21 * * *
+    - cron: '0 0 * * *'
 
   workflow_dispatch:
   
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    permissions:
+          issues: write
+          
     steps:
 
       - uses: actions/checkout@v3
@@ -41,17 +43,19 @@ jobs:
              # main_id = ${{git rev-parse main}}
              # upstream_id = ${{git rev-parse upstream/main}}
               
-              if [ $main_id = $upstream_id ]; then
-                echo "state = true" >> $GITHUB_ENV   # already up-to-date
+              if [ $main_id = $upstream_id ]; then                       # already up-to-date
+                echo "state = true" >> $GITHUB_ENV   
                 echo "already up-to-date"
         
-              else (git rev-parse main != git rev-parse upstream/main)
-                echo "state = false" >> $GITHUB_ENV   # need to update
+              else (git rev-parse main != git rev-parse upstream/main)     # need to update
+                echo "state = false" >> $GITHUB_ENV  
               fi
               
-      - name : git
-        if : ${{env.state}} == 'false'
+              
+      - name : git action
+        if : ${{env.state}} == 'false'    # 다르면
         run : | 
+              git checkout origin/main    # 변경 내용확인
               git merge upstream/main
               git push origin main
               git status
