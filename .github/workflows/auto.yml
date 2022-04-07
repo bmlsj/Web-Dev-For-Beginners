@@ -25,9 +25,13 @@ jobs:
       # remote
       - name: remote upstream
         run : |
-              git remote add upstream https://github.com/devrel-kr/Web-Dev-For-Beginners.git
+              git remote add upstream https://github.com/microsoft/Web-Dev-For-Beginners.git
               git remote -v
-      
+              
+        # checkout
+      - name : checkout
+        run : git checkout english
+        
       # fetch
       - name : fetch upstream
         run : git fetch upstream 
@@ -52,11 +56,10 @@ jobs:
                 echo "state = false" >> $GITHUB_ENV  
               fi
       
-      - name : checkout
-        run : git checkout main
+      
               
       - name : git action
-        if : env.state != 'true'    # 다르면
+        if : $env.state != 'true'    # 다르면
         run : | 
               git merge upstream/main
               git push origin main
