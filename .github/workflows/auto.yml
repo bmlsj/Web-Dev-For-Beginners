@@ -4,7 +4,7 @@ name: synx
 
 on:
   schedule:
-    - cron: '9 21 * * *'
+    - cron: '12 21 * * *'
 
   workflow_dispatch:
   
