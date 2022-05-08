@@ -35,16 +35,18 @@ jobs:
               
       # main의 최신 id               
       - name : main id
-        run : git rev-parse main | read main_id
-      
+        id : main
+        run : echo ::set-output name=main_id::$(git rev-parse main)
+
       # upstream/main의 최신 id
       - name : upstream id
         id : vars
-        run : |
-              echo ::set-output name =upstream_id::$(git rev-parse upstream/main)
+        run : echo ::set-output name=upstream_id::$(git rev-parse upstream/main)
       
       - name : output 
-        run : echo ${{steps.vars.outputs.upstream_id}}
+        run : |
+              echo ${{steps.vars.outputs.upstream_id}}
+              echo ${{steps.main.outputs.main_id}}
 
 
       # setup python
