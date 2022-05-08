@@ -57,4 +57,4 @@ jobs:
         
       - name : git diff
         run : |
-              python diff.py $main_id $upstream_id
+              python diff.py ${{steps.main.outputs.main_id}} ${{steps.vars.outputs.upstream_id}}
