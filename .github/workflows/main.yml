@@ -39,7 +39,9 @@ jobs:
       
       # upstream/main의 최신 id
       - name : upstream id
-        run : git rev-parse upstream/main | read upstream_id
+        run : |
+              git rev-parse upstream/main | read upstream_id
+              echo "${{upstream_id}}""
 
       # setup python
       - name: Set up Python ${{ matrix.python-version }}
